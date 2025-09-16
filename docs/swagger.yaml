@@ -1,0 +1,147 @@
+basePath: /
+definitions:
+  handlers.OTPRequest:
+    properties:
+      phone:
+        type: string
+    required:
+    - phone
+    type: object
+  handlers.OTPVerifyRequest:
+    properties:
+      code:
+        type: string
+      phone:
+        type: string
+    required:
+    - code
+    - phone
+    type: object
+  storage.User:
+    properties:
+      phone:
+        type: string
+      registered_at:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API for OTP-based login and user management
+  title: OTP Login API
+  version: "1.0"
+paths:
+  /auth/request-otp:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: شماره تلفن
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.OTPRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "429":
+          description: Too Many Requests
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: درخواست OTP برای شماره تلفن
+      tags:
+      - Auth
+  /auth/verify-otp:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: OTP verification payload
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.OTPVerifyRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Verify OTP and login/register user
+      tags:
+      - Auth
+  /users:
+    get:
+      parameters:
+      - description: شماره صفحه
+        in: query
+        name: page
+        type: integer
+      - description: تعداد در هر صفحه
+        in: query
+        name: limit
+        type: integer
+      - description: جستجو بر اساس شماره
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: لیست کاربران با جستجو و صفحه‌بندی
+      tags:
+      - Users
+  /users/{phone}:
+    get:
+      parameters:
+      - description: شماره تلفن
+        in: path
+        name: phone
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/storage.User'
+        "404":
+          description: Not Found
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: دریافت اطلاعات یک کاربر خاص
+      tags:
+      - Users
+swagger: "2.0"

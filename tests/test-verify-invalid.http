@@ -1,0 +1,9 @@
+### تست با OTP اشتباه
+
+POST http://localhost:8080/auth/verify-otp
+Content-Type: application/json
+
+{
+  "phone": "09123456789",
+  "code": "000000"
+}

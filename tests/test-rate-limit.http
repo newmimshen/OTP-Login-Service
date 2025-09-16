@@ -1,0 +1,37 @@
+### درخواست اول - باید موفق باشه
+POST http://localhost:8080/auth/request-otp
+Content-Type: application/json
+
+{
+  "phone": "09123456789"
+}
+
+###
+
+### درخواست دوم - باید موفق باشه
+POST http://localhost:8080/auth/request-otp
+Content-Type: application/json
+
+{
+  "phone": "09123456789"
+}
+
+###
+
+### درخواست سوم - باید موفق باشه
+POST http://localhost:8080/auth/request-otp
+Content-Type: application/json
+
+{
+  "phone": "09123456789"
+}
+
+###
+
+### درخواست چهارم - باید رد بشه با خطای 429
+POST http://localhost:8080/auth/request-otp
+Content-Type: application/json
+
+{
+  "phone": "09123456789"
+}
